@@ -2,16 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import serverConnection from '../Settings/serverConnection';
 import 'bootstrap/dist/css/bootstrap.css';
-import BookingFormWithPayment from "./BookingForm-payment";
-import BookingFormWithQueue from "./BookingForm-queue";
+import StripePayment from "./Payments/StripePayment";
 
-const BookingForm = ({venue}) => {
+const BookingFormWithPayment = ({venue}) => {
 
     // const {minimalBookingTime, additionalPeriodPrice, venueId} = props.venue;
 
     const [venueId, setVenueId] = useState(venue.venueId);
-    const [displayPayment, setDisplayPayment] = useState(false);
-    const [bookingType, setBookingType] = useState('course-play');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [customerPhone, setCustomerPhone] = useState('');
@@ -33,12 +30,6 @@ const BookingForm = ({venue}) => {
     const handleBookingDurationChange = async e => {
         setBookingDuration(e.target.value);
         updateBookingPrice(e.target.value);
-    }
-
-    const handleBookingTypeSwitch = e => {
-        if ( e.target.value != bookingType){
-            setBookingType(e.target.value)
-        }
     }
 
     const updateBookingPrice = (newDuration) => {
@@ -93,26 +84,6 @@ const BookingForm = ({venue}) => {
 
             <div className="container">
                 <div className="row">
-                    <div className="nav nav-pills">
-                        <li className="nav-item">
-                            <button
-                                className="nav-link"
-                                value={'course-play'}
-                                onClick={handleBookingTypeSwitch}
-                            >Course Play Bays</button>
-                        </li>
-                        <li className="nav-item">
-                            <button
-                                className="nav-link"
-                                value={'driving-range'}
-                                onClick={handleBookingTypeSwitch}
-                            >Driving Range Bays</button>
-                        </li>
-                    </div>
-                </div>
-                { bookingType == 'course-play' && <BookingFormWithPayment venue={venue} />}
-                { bookingType == 'driving-range' && <BookingFormWithQueue venue={venue} />}
-                {/* <div className="row">
                     <div className="col">                        
                         <form
                         className="gbrForm"
@@ -218,10 +189,10 @@ const BookingForm = ({venue}) => {
                     <div className="col">
                         { bookingStep === 'payment' && <StripePayment price={bookingPrice} bookingId={newBookingId} />}
                     </div>
-                </div> */}
+                </div>
             </div>
         </>
     )
 }
 
-export default BookingForm;
+export default BookingFormWithPayment;

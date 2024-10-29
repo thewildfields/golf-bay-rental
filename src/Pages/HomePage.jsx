@@ -13,7 +13,7 @@ const HomePage = () => {
         axios.get(serverConnection.api+'/venues')
             .then( response => setVenues(response.data))
             .catch( err => console.error( err))
-    })
+    },[])
 
     return(
         <>

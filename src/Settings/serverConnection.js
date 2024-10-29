@@ -1,5 +1,5 @@
 const serverConnection = {
-    api: 'https://us-central1-golf-bay-rental.cloudfunctions.net/app'
+    api: 'http://127.0.0.1:5001/golf-bay-rental/us-central1/app'
 }
 
 export default serverConnection;

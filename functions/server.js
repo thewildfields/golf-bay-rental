@@ -13,11 +13,15 @@ const bookingsRouter = require('./routes/bookings');
 const authRouter = require('./routes/auth');
 const paymentRouter = require('./routes/payment');
 const userRouter = require('./routes/user');
+const roleRouter = require('./routes/role');
+const rolesRouter = require('./routes/roles');
+const capabilitiesRouter = require('./routes/capabilities');
+const capabilityRouter = require('./routes/capability');
  
 const app = new express();
 const PORT = 8080;
 
-const allowedOrigins = ['https://golf-bay-rental.web.app'];
+const allowedOrigins = ['https://golf-bay-rental.web.app', 'http://localhost:5173'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -55,5 +59,9 @@ app.use('/customer', customerRouter);
 app.use('/auth', authRouter);
 app.use('/payment', paymentRouter);
 app.use('/user', userRouter);
+app.use('/role', roleRouter)
+app.use('/roles', rolesRouter)
+app.use('/capabilities', capabilitiesRouter)
+app.use('/capability', capabilityRouter)
 
 module.exports = app;

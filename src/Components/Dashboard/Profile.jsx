@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import serverConnection from "../../Settings/serverConnection";
+import CapabilitiesTable from "./CapabilitiesTable";
+import RolesTable from "./RolesTable";
 
 const Profile = () => {
 
@@ -57,6 +59,8 @@ const Profile = () => {
                 </div>
                 <input type="submit" value="Update" className="btn btn-primary" />
             </form>
+            <CapabilitiesTable />
+            <RolesTable />
         </>
     )
 }

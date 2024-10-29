@@ -12,8 +12,12 @@ import createStore from 'react-auth-kit/createStore';
 import Venues from './Components/Dashboard/Venues';
 import Profile from './Components/Dashboard/Profile';
 import Bookings from './Components/Dashboard/Bookings';
+import VenueSettings from './Components/Dashboard/VenueSettings';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import * as bootstrap from 'bootstrap'
+import DashboardSummary from './Components/Dashboard/DashboardSummary';
+import PaymentAccounts from './Components/Dashboard/PaymentAccounts';
 
 const store = createStore({
   debug: false,
@@ -44,9 +48,12 @@ function App() {
             </Route> */}
             <Route element={<AuthOutlet fallbackPath='/sign-in' />} >
               <Route path="/dashboard/" element={<DashboardPage />}>
-                <Route path="venues" element={<Venues />} />
+                <Route path="" element={<DashboardSummary />} />
+                <Route path="venues/" element={<Venues />} />
+                <Route path="venues/:id" element={<VenueSettings />} />
                 <Route path="bookings" element={<Bookings />} />
                 <Route path="venues" element={<Venues />} />
+                <Route path="payment-accounts" element={<PaymentAccounts />} />
                 <Route path="profile" element={<Profile />} />
               </Route>
             </Route>

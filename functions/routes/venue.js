@@ -4,6 +4,7 @@ const Venue = require('../models/Venue');
 
 router.post('/', async (req,res) => {
     const venueRequest = req.body;
+    let venueId = venueRequest.venueId, venueIdExists = false;
     const newVenue = new Venue({
         venueId: venueRequest.venueId,
         venueName: venueRequest.venueName,
@@ -31,6 +32,16 @@ router.get('/:venueId' , (req, res) => {
     }
     Venue.find({ venueId: venueId })
         .then( venue => res.send( venue ) )
+        .catch( err => console.log(`Error: ${err}`))
+})
+
+router.put('/:venueId' , (req, res) => {
+    const venueId = req.params.venueId;
+    if(!venueId){
+        res.status(400).send(`Error, specify the venue name.`);
+    }
+    Venue.findOneAndUpdate({venueId: venueId}, req.body)
+        .then( venue => res.send( 'venue updated' ) )
         .catch( err => console.log(`Error: ${err}`))
 })
 

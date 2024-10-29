@@ -49,6 +49,13 @@ const DashboardPage = () => {
                                 <li className="nav-item">
                                     <Link
                                         className="nav-link"
+                                        to={"/dashboard/payment-accounts"}
+                                        state={{ user: user }}
+                                    >Payment Accounts</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link
+                                        className="nav-link"
                                         to={"/dashboard/profile"}
                                         state={{ user: user }}
                                     >My Profile</Link>

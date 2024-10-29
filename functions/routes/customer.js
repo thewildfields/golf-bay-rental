@@ -7,5 +7,10 @@ router.get('/:customerId', (req, res) => {
         .then( customer => { res.send(customer) })
         .catch( err => { res.status(400).json(`Error: ${err}`) })
 })
+router.get('/:customerPhone', (req, res) => {
+    Customer.findOne({phone: req.params.customerPhone})
+        .then( customer => { res.send(customer) })
+        .catch( err => { res.status(400).json(`Error: ${err}`) })
+})
 
 module.exports = router;

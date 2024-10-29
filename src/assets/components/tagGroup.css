@@ -1,0 +1,72 @@
+.tagGroup{
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    &__item{
+
+        background-color: #d0cfff;
+        font-size: .875rem;
+        padding: 3px 5px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        opacity: 0.5;
+        transition: all 0.2s ease;
+        border: none;
+        outline: none;
+
+        i{
+            background: white;
+            padding: 0;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1375rem;
+            border-radius: 4px;
+            opacity: 0.6;
+        }
+
+    }
+
+}
+
+.editableRow{
+
+    td{
+
+        transition: all 0.2s ease;
+
+    }
+
+}
+
+.editableRow_open{
+
+    td{
+
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: var(--bs-table-striped-bg);
+
+    }
+
+    .tagGroup{
+
+        &__item{
+
+            cursor: pointer;
+            opacity: 0.8;
+
+            &:hover{
+                opacity: 1;
+            }
+
+        }
+    }
+
+}

@@ -15,13 +15,19 @@ const userSchema = new Schema({
         required: true,
         unique: true
     },
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
     password: {
         type: String,
         required: true,
     },
-    usergroup: {
-        type: String,
-        require: false
+    roles: {
+        type: Array,
+        required: true,
+        default: []
     }
 })
 

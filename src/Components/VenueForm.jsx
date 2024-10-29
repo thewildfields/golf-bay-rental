@@ -21,9 +21,14 @@ const VenueForm = (props) => {
         setOwner(props.user._id)
     },[props])
 
-    const submitVenueForm = (e) => {
+    const generateId = () => {
+        if( venueName.length && !venueId ){
+            const generatedVenueId = venueName.replace(/[^a-z0-9_]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
+            setVenueId( generatedVenueId );
+        }
+    }
 
-        e.preventDefault();
+    const gatherVenueData = () => {
 
         const venueData = {
             venueName: venueName,
@@ -38,7 +43,32 @@ const VenueForm = (props) => {
             owner: owner
         }
 
+        return venueData;
+
+    }
+
+    const createVenue = (e) => {
+
+        e.preventDefault();
+
+        const venueData = gatherVenueData();
+        
+        console.log('create venue');
+
         axios.post(serverConnection.api+'/venue', venueData)
+            .then(response => window.location.reload())
+            .catch(err => console.error(err));
+    }
+
+    const updateVenue = (e) => {
+
+        e.preventDefault();
+
+        const venueData = gatherVenueData();
+
+        console.log('update venue')
+
+        axios.put(serverConnection.api+`/venue/${venueData/venueId}`, venueData)
             .then(response => window.location.reload())
             .catch(err => console.error(err));
     }
@@ -48,7 +78,7 @@ const VenueForm = (props) => {
             <h2>{venueName.length ? venueName : 'New Venue Form'}</h2>
             <form
                 className="gbrForm"
-                onSubmit={ submitVenueForm }
+                onSubmit={ createVenue }
             >
                 <div className="gbrForm__group">
                     <label htmlFor="booking-name" className="form-label">Venue name</label>
@@ -58,6 +88,7 @@ const VenueForm = (props) => {
                         id="booking-name"
                         value={venueName}
                         onChange={ e => setVenueName(e.target.value)}
+                        onBlur={ generateId }
                         required
                     />
                 </div>

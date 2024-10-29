@@ -46,4 +46,26 @@ router.put('/:bookingId', (req, res) => {
         .catch( err => console.log(`Error: ${err}`))
 })
 
+router.get('/:customerPhone', (req, res) => {
+    Customer.findOne({phone: req.params.customerPhone})
+        .then( customer => {
+            Booking.find({customerId: customer._id})
+                .then( bookings => {
+                    if( bookings.length > 0){
+                        res.send( JSON.stringify(`Hello, ${customer.firstName}! We found your booking today at ${bookings[0].bookingTime}`))
+                    }
+                })
+                .catch( err => res.send(err))
+        })
+        .catch( err => res.send('Phone doesnt exist'))
+    // if(!email){
+    //     res.status(400).send(`Error, specify the user email.`);
+    // }
+    // Booking.findOneAndUpdate({ _id: bookingId }, {
+    //     'isPaid': paymentStatus
+    // })
+    //     .then( booking => res.send( booking ) )
+    //     .catch( err => console.log(`Error: ${err}`))
+})
+
 module.exports = router;

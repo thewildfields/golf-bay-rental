@@ -5,12 +5,14 @@ import serverConnection from "../../Settings/serverConnection";
 const SignUpForm = () => {
 
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSignUpForm = (e) => {
         e.preventDefault();
         const userData = {
             email: email,
+            username: username,
             password: password
         }
 
@@ -33,6 +35,17 @@ const SignUpForm = () => {
                         id="user-email"
                         value={email}
                         onChange={ e => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="gbrForm__group mb-3">
+                    <label htmlFor="user-email" className="form-label">Username</label>
+                    <input
+                        type="text"
+                        className="gbrForm__input form-control"
+                        id="user-username"
+                        value={username}
+                        onChange={ e => setUsername(e.target.value)}
                         required
                     />
                 </div>
