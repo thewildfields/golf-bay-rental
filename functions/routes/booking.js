@@ -4,32 +4,33 @@ const Customer = require('../models/Customer');
 const Booking = require('../models/Booking');
 
 router.post('/', async (req,res) => {
-    const bookingRequest = req.body;
-    let customer = await Customer.findOne({phone: bookingRequest.customerPhone});
+    const { firstName, lastName, phone, email, ...bookingRequest} = req.body;
+    let customer = await Customer.findOne({phone: phone});
     if(!customer){
         customer = new Customer({
-            phone: bookingRequest.customerPhone,
-            firstName: bookingRequest.firstName,
-            lastName: bookingRequest.lastName
+            phone: phone,
+            email: email,
+            firstName: firstName,
+            lastName: lastName
         })
         customer.save()
             .then(savedCustomer => res.json(savedCustomer))
             .catch(err => res.status(400).json(`Error: ${err}`));
     }
 
-    const newBooking = new Booking({
-        venueId: req.body.venueId,
-        customerId: customer._id,
-        bookingDate: req.body.bookingDate,
-        bookingTime: req.body.bookingTime,
-        guestsCount: req.body.guestsCount,
-        isPaid: req.body.isPaid
-    });
+    bookingRequest.customerId = customer._id;
+    
+    const newBooking = new Booking(bookingRequest);
+
     newBooking.save()
-        .then(savedBooking => res.send({
-            booking: savedBooking,
-            isSuccess: true
-        }))
+        .then( async savedBooking => {
+            
+            res.send({
+                booking: savedBooking,
+                isSuccess: true
+            })
+
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 
 })
@@ -58,14 +59,6 @@ router.get('/:customerPhone', (req, res) => {
                 .catch( err => res.send(err))
         })
         .catch( err => res.send('Phone doesnt exist'))
-    // if(!email){
-    //     res.status(400).send(`Error, specify the user email.`);
-    // }
-    // Booking.findOneAndUpdate({ _id: bookingId }, {
-    //     'isPaid': paymentStatus
-    // })
-    //     .then( booking => res.send( booking ) )
-    //     .catch( err => console.log(`Error: ${err}`))
 })
 
 module.exports = router;

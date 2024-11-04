@@ -48,7 +48,7 @@ const SignInForm = () => {
     return(
         <>
             <form
-                className="gbrForm"
+                className="max-w-xl mx-auto"
                 onSubmit={ handleSignInForm }
             >
                 <div className="gbrForm__group mb-3">

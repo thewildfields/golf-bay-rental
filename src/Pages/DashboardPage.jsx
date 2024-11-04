@@ -22,50 +22,16 @@ const DashboardPage = () => {
             <div className="container">
                 <h1>Dashboard page</h1>
             </div>
-            <div className="container">
-                <div className="row">
-                    <div className="col-3">
-                        <div className="sidebar">
-                            <ul className="nav flex-column">
-                                <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" to={"/dashboard"}>Summary</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link
-                                        className="nav-link"
-                                        to={"/dashboard/bookings"}
-                                        state={{ user: user }}
-                                    >
-                                        My Bookings
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link
-                                        className="nav-link"
-                                        to={"/dashboard/venues"}
-                                        state={{ user: user }}
-                                    >My Venues</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link
-                                        className="nav-link"
-                                        to={"/dashboard/payment-accounts"}
-                                        state={{ user: user }}
-                                    >Payment Accounts</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link
-                                        className="nav-link"
-                                        to={"/dashboard/profile"}
-                                        state={{ user: user }}
-                                    >My Profile</Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div className="col-9">
-                        <Outlet/>
-                    </div>
+            <div className="container mx-auto grid grid-cols-4">
+                <div className="sidebar">
+                    <Link className="block p-3" to={"/dashboard"}>Summary</Link>
+                    <Link className="block p-3" to={"/dashboard/bookings"}>My Bookings</Link>
+                    <Link className="block p-3" to={"/dashboard/venues"}>My Venues</Link>
+                    <Link className="block p-3" to={"/dashboard/payment-accounts"}>Payment Accounts</Link>
+                    <Link className="block p-3" to={"/dashboard/profile"}>My Profile</Link>
+                </div>
+                <div className="col-span-3">
+                    <Outlet/>
                 </div>
             </div>
         </>

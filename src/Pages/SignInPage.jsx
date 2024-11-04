@@ -6,7 +6,7 @@ const SignInPage = () => {
     return(
         <>
             <Header/>
-                <div className="container">
+                <div className="container mx-auto">
                     <h1>Sign In Page</h1>
                     <SignInForm/>
                     <Link to={'/sign-up'}>Create an account</Link>

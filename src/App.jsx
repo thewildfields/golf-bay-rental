@@ -13,11 +13,10 @@ import Venues from './Components/Dashboard/Venues';
 import Profile from './Components/Dashboard/Profile';
 import Bookings from './Components/Dashboard/Bookings';
 import VenueSettings from './Components/Dashboard/VenueSettings';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import * as bootstrap from 'bootstrap'
 import DashboardSummary from './Components/Dashboard/DashboardSummary';
 import PaymentAccounts from './Components/Dashboard/PaymentAccounts';
+import KioskPage from './Pages/KioskPage';
+import './assets/styles/main.css';
 
 const store = createStore({
   debug: false,
@@ -36,9 +35,10 @@ function App() {
       <Router>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/kiosk" element={<KioskPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/sign-in" element={<SignInPage />} />
-            <Route path="/venue/:id" element={<VenuePage />} />
+            <Route path="/venue/:name" element={<VenuePage />} />
             <Route path="/create-venue" element={<VenueCreatingPage />} />
             <Route path="/payment-success" element={<PaymentSuccessPage />} />
 

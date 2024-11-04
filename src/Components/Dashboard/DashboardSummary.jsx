@@ -1,6 +1,10 @@
 const DashboardSummary = () => {
     return(
-        'test'
+        <>
+        <h1 className="text-2xl font-bold">
+    Hello world!
+  </h1>
+        </>
     )
 }
 

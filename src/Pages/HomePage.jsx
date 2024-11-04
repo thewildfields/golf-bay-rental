@@ -1,5 +1,4 @@
 import Header from "../Components/Layout/Header";
-import 'bootstrap/dist/css/bootstrap.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import serverConnection from "../Settings/serverConnection";
@@ -22,8 +21,8 @@ const HomePage = () => {
                 <h1>Welcome to Golf Bay Rentals</h1>
                 <h2>Golf venues</h2>
                 {venues.map( venue => (
-                    <div key={venue.venueId}>
-                        <Link to={`/venue/${venue.venueId}`}>{venue.venueName}</Link>
+                    <div key={venue.venueName}>
+                        <Link to={`/venue/${venue.venueName}`}>{venue.venueTitle}</Link>
                         <br />
                     </div>
                 ))}

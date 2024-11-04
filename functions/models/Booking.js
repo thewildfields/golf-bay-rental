@@ -9,20 +9,17 @@ const bookingSchema = new Schema({
         type: String,
         required: true
     },
-    bookingDate: {
-        type: String,
-        required: true
-    },
-    bookingTime: {
-        type: String,
-        required: true
-    },
-    guestsCount: {
-        type: Number,
-        required: true
-    },
     isPaid: {
         type: Boolean,
+        required: true,
+        default: false
+    },
+    date: {
+        type: String,
+        required: true,
+    },
+    timeBlocks: {
+        type: Array,
         required: true
     }
 });

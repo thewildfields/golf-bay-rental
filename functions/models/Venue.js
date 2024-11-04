@@ -2,47 +2,79 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const venueSchema = new Schema({
-    venueId: {
-        type: String, 
+    name: {
+        type: String,
         required: true,
         unique: true
     },
-    venueName: {
-        type: String, 
-        required: true
-    },
-    bayCount: {
+    title: {
         type: String,
-        required: true
-    },
-    venueOpeningTime: {
-        type: String,
-        required: true
-    },
-    venueClosingTime: {
-        type: String,
-        required: true
-    },
-    minimalBookingTime: {
-        type: Number,
-        required: true
-    },
-    initialPeriodPrice: {
-        type: Number,
-        required: true
-    },
-    additionalPeriodPrice: {
-        type: Number,
-        required: true
-    },
-    bookingFrequency: {
-        type: Number,
-        required: true
+        required: true,
     },
     owner: {
         type: String,
         required: true
-    }
+    },
+    gameModes: {
+        type: Array
+    },
+    // useSameBaysForAllGameTypes: {
+    //     type: Boolean,
+    //     default: true,
+    // },
+    // variableGameTypeBayCount: {
+    //     type: String,
+    //     default: 1
+    // },
+    // drivingRangeBayCount: {
+    //     type: String,
+    //     default: 1
+    // },
+    // coursePlayBayCount: {
+    //     type: String,
+    //     default: 1
+    // },
+    isOpenAllDay: {
+        type: Boolean,
+        default: false
+    },
+    openDays: {
+        type: Array,
+        default: ['monday','tuesday','wednesday','thursday','friday']
+    },
+    openingTime: {
+        type: Number,
+        default: 18
+    },
+    closingTime: {
+        type: Number,
+        default: 34
+    },
+    bookingDurationType: {
+        type: String,
+        default: 'fixed'
+    },
+    fixedBookingBlockDuration: {
+        type: Number,
+        default: 1
+    },
+    variableBookingMinimalDuration: {
+        type: Number,
+        default: 1
+    },
+    // fixedBookingAllBlocksPricedTheSame: {
+    //     type: Boolean,
+    //     default: true
+    // },
+    // fixedBookingBlockPrice: {
+    //     type: Number
+    // },
+    initialPeriodPrice: {
+        type: Number
+    },
+    additionalPeriodPrice: {
+        type: Number
+    },
 
 })
 

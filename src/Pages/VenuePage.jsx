@@ -4,24 +4,23 @@ import axios from 'axios';
 import BookingForm from '../Components/BookingForm';
 import Header from '../Components/Layout/Header';
 import serverConnection from '../Settings/serverConnection';
-import 'bootstrap/dist/css/bootstrap.css';
 
 const VenuePage = () => {
 
-    const { id } = useParams();
+    const { name } = useParams();
     const [venue, setVenue] = useState({});
 
     useEffect(() => {
-        axios(serverConnection.api+`/venue/${id}`)
+        axios(serverConnection.api+`/venue/${name}`)
             .then(response => setVenue(response.data[0]))
             .catch(err => console.error(err))
-    },[id])
+    },[name])
 
     return(
         <>
             <Header />
             <div className="container">
-                <h1>{venue.venueName}</h1>
+                <h1>{venue.title}</h1>
                 <BookingForm venue={venue} />
             </div>
         </>

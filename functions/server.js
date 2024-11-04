@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require("express-session");
 
 const customerRouter = require('./routes/customer');
+const customersRouter = require('./routes/customers');
 const bookingRouter = require('./routes/booking');
 const venueRouter = require('./routes/venue');
 const venuesRouter = require('./routes/venues');
@@ -17,6 +18,7 @@ const roleRouter = require('./routes/role');
 const rolesRouter = require('./routes/roles');
 const capabilitiesRouter = require('./routes/capabilities');
 const capabilityRouter = require('./routes/capability');
+const kioskRouter = require('./routes/kiosk');
  
 const app = new express();
 const PORT = 8080;
@@ -56,6 +58,7 @@ app.use('/bookings', bookingsRouter);
 app.use('/venue', venueRouter);
 app.use('/venues', venuesRouter);
 app.use('/customer', customerRouter);
+app.use('/customers', customersRouter);
 app.use('/auth', authRouter);
 app.use('/payment', paymentRouter);
 app.use('/user', userRouter);
@@ -63,5 +66,6 @@ app.use('/role', roleRouter)
 app.use('/roles', rolesRouter)
 app.use('/capabilities', capabilitiesRouter)
 app.use('/capability', capabilityRouter)
+app.use('/kiosk', kioskRouter)
 
 module.exports = app;

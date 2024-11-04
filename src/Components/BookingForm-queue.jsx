@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import serverConnection from '../Settings/serverConnection';
-import 'bootstrap/dist/css/bootstrap.css';
 import StripePayment from "./Payments/StripePayment";
 
 const BookingFormWithQueue = ({venue}) => {
