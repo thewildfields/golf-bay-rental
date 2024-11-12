@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         .catch( err => console.error(err) );
 });
 
-router.get('/:venueId/:date', async (req, res) => {
+router.get('/venue/:venueId?/date/:date?/game-mode/:gameMode?', async (req, res) => {
 
     const filter = {}
     const keys = Object.keys(req.params)

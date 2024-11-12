@@ -21,6 +21,13 @@ const bookingSchema = new Schema({
     timeBlocks: {
         type: Array,
         required: true
+    },
+    gameMode: {
+        type: String
+    },
+    guestCount: {
+        type: Number,
+        default: 1 
     }
 });
  

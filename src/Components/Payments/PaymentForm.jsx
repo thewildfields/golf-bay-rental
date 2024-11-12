@@ -46,6 +46,8 @@ const PaymentForm = ({newBookingId}) => {
             },
         });
 
+        updatePaymentStatus();
+
         if (resp.error) setMessage("Some Error Occurred !!");
         setIsLoading(false);
     };

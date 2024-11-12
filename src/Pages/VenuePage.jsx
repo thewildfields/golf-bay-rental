@@ -4,6 +4,7 @@ import axios from 'axios';
 import BookingForm from '../Components/BookingForm';
 import Header from '../Components/Layout/Header';
 import serverConnection from '../Settings/serverConnection';
+import PageContent from '../Components/Layout/PageContent';
 
 const VenuePage = () => {
 
@@ -19,10 +20,11 @@ const VenuePage = () => {
     return(
         <>
             <Header />
-            <div className="container">
-                <h1>{venue.title}</h1>
+            <PageContent
+                title={venue.title}
+            >
                 <BookingForm venue={venue} />
-            </div>
+            </PageContent>
         </>
     )
 }

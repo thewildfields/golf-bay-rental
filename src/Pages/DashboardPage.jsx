@@ -4,6 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 import Cookies from 'js-cookie'
 import axios from "axios";
 import serverConnection from "../Settings/serverConnection";
+import PageContent from "../Components/Layout/PageContent";
 
 const DashboardPage = () => {
 
@@ -19,9 +20,11 @@ const DashboardPage = () => {
     return(
         <>
             <Header/>
-            <div className="container">
-                <h1>Dashboard page</h1>
-            </div>
+            <PageContent
+                title="Dashboard"
+            >
+
+            </PageContent>
             <div className="container mx-auto grid grid-cols-4">
                 <div className="sidebar">
                     <Link className="block p-3" to={"/dashboard"}>Summary</Link>

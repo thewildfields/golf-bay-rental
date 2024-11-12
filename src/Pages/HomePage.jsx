@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import serverConnection from "../Settings/serverConnection";
 import { Link } from "react-router-dom";
+import PageContent from "../Components/Layout/PageContent";
 
 const HomePage = () => {
 
@@ -17,16 +18,18 @@ const HomePage = () => {
     return(
         <>
             <Header />
-            <div className="container pt-4">
-                <h1>Welcome to Golf Bay Rentals</h1>
+            <PageContent
+                title="Welcome to Golf Bay Rentals"
+            >
                 <h2>Golf venues</h2>
+                <Link to={'/kiosk'}>Kiosk</Link>
                 {venues.map( venue => (
-                    <div key={venue.venueName}>
-                        <Link to={`/venue/${venue.venueName}`}>{venue.venueTitle}</Link>
+                    <div key={venue.name}>
+                        <Link to={`/venue/${venue.name}`}>{venue.title}</Link>
                         <br />
                     </div>
                 ))}
-            </div>
+            </PageContent>
         </>
     )
 }

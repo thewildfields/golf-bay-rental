@@ -18,22 +18,14 @@ const venueSchema = new Schema({
     gameModes: {
         type: Array
     },
-    // useSameBaysForAllGameTypes: {
-    //     type: Boolean,
-    //     default: true,
-    // },
-    // variableGameTypeBayCount: {
-    //     type: String,
-    //     default: 1
-    // },
-    // drivingRangeBayCount: {
-    //     type: String,
-    //     default: 1
-    // },
-    // coursePlayBayCount: {
-    //     type: String,
-    //     default: 1
-    // },
+    drivingRangeBayCount: {
+        type: String,
+        default: 1
+    },
+    coursePlayBayCount: {
+        type: String,
+        default: 1
+    },
     isOpenAllDay: {
         type: Boolean,
         default: false
@@ -62,13 +54,14 @@ const venueSchema = new Schema({
         type: Number,
         default: 1
     },
-    // fixedBookingAllBlocksPricedTheSame: {
-    //     type: Boolean,
-    //     default: true
-    // },
-    // fixedBookingBlockPrice: {
-    //     type: Number
-    // },
+    allowMemberships: {
+        type: Boolean,
+        default: false
+    },
+    maxBookingsPerDaysForMembers: {
+        type: Number,
+        default: 1
+    },
     initialPeriodPrice: {
         type: Number
     },

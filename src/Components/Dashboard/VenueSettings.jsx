@@ -199,30 +199,28 @@ const VenueSettings = () => {
                         value={venue.gameModes ? venue.gameModes : ''}
                         onValueChange={handleData}
                     />
-                    {/* <FormGroup
-                        title="How to use Bays"
-                        hint="Whether to use same bays for different game types."
-                        type="radio"
-                        options={[
-                            {value: 'same', label: 'Use same Bays'},
-                            {value: 'separate', label: 'Use separate bays'}
-                        ]}
-                    />
-                    <FormGroup
-                        title="Bays Count"
-                        type="number"
-                        hint="Total Bays Count"
-                    />
-                    <FormGroup
-                        title="Driving Range Bays Count"
-                        type="number"
-                        hint="Driving Range Bays Count"
-                    />
-                    <FormGroup
-                        title="Course Play Bays Count"
-                        type="number"
-                        hint="Course Play Bays Count"
-                    /> */}
+                    <div className="grid grid-cols-2 gap-x-8">
+                        <div>
+                            <FormGroup
+                                property='drivingRangeBayCount'
+                                title="Driving Range Bays"
+                                type="number"
+                                value={venue.drivingRangeBayCount}
+                                onValueChange={handleData}
+                                hideCondition={!venue.gameModes.includes('driving-range')}
+                            />
+                        </div>
+                        <div>
+                            <FormGroup
+                                property='coursePlayBayCount'
+                                title="Course Play Bays"
+                                type="number"
+                                value={venue.coursePlayBayCount}
+                                onValueChange={handleData}
+                                hideCondition={!venue.gameModes.includes('course-play')}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-3">
                     <FormGroup
@@ -329,6 +327,29 @@ const VenueSettings = () => {
                         value={venue.additionalPeriodPrice ? venue.additionalPeriodPrice : 0}
                         onValueChange={handleData}
                         required={true}
+                    />
+                </div>
+                <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-3">
+                    <FormGroup
+                        property='allowMemberships'
+                        title="Membership Settings"
+                        hint="Allow registered members to book for free?"
+                        type="radio"
+                        value={venue.allowMemberships}
+                        options={[
+                            {value: true, label: 'Allow'},
+                            {value: false, label: 'Deny'}
+                        ]}
+                        onValueChange={handleData}
+                    />
+                    <FormGroup
+                        property='maxBookingsPerDaysForMembers'
+                        title="Maximum bookings for members"
+                        hint="How many bookings per day can a member make"
+                        type="number"
+                        value={ venue.maxBookingsPerDaysForMembers }
+                        onValueChange={handleData}
+                        hideCondition={!venue.allowMemberships}
                     />
                 </div>
                 <div className="flex justify-between">

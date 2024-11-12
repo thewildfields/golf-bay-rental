@@ -19,6 +19,8 @@ const rolesRouter = require('./routes/roles');
 const capabilitiesRouter = require('./routes/capabilities');
 const capabilityRouter = require('./routes/capability');
 const kioskRouter = require('./routes/kiosk');
+const baysRouter = require('./routes/bays');
+const bayRouter = require('./routes/bay');
  
 const app = new express();
 const PORT = 8080;
@@ -67,5 +69,7 @@ app.use('/roles', rolesRouter)
 app.use('/capabilities', capabilitiesRouter)
 app.use('/capability', capabilityRouter)
 app.use('/kiosk', kioskRouter)
+app.use('/bays', baysRouter)
+app.use('/bay', bayRouter)
 
 module.exports = app;

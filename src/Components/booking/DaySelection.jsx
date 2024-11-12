@@ -1,9 +1,11 @@
+import { data } from "autoprefixer";
 import { useEffect, useState } from "react";
 
-const DaySelection = ({onData, openDays, daysCount}) => {
+const DaySelection = ({onData, openDays, daysCount, dependsOn, venue, booking}) => {
 
     const [initiateDatePicker, setInitiateDatePicker] = useState(true);
     const [days, setDays] = useState([]);
+    
 
     const selectDays = (numberOfDays) => {
 
@@ -18,7 +20,7 @@ const DaySelection = ({onData, openDays, daysCount}) => {
                     const newDay = {
                         isToday: today === day,
                         dayOfWeek: daysOfWeek[day.getDay()],
-                        date: `${String(day.getMonth() + 1).padStart(2, '0')}-${String(day.getDate()).padStart(2, '0')}-${day.getFullYear()}`
+                        date: day.toISOString().split('T')[0]
                     }
                     days.push(newDay);
                     break;
@@ -39,19 +41,25 @@ const DaySelection = ({onData, openDays, daysCount}) => {
 
 
     return(
-        <div className="flex">
-            { days.length > 0 && days.map( (day, index) => (
-                <button
-                    type="button"
-                    key={index}
-                    value={day.date}
-                    onClick={ e => onData(e.target.value)}
-                >{`${day.isToday ? 'Today' : day.dayOfWeek} (${day.date})`}</button>
-            ))}
-            <input
-                type="date"
-            />
-        </div>
+        <>
+            { booking[dependsOn] && <div className={`grid grid-cols-${daysCount} mb-4`}>
+                { days.length > 0 && days.map( (day, index) => (
+                    <button
+                        type="button"
+                        key={index}
+                        value={day.date}
+                        onClick={ e => onData(day.date)}
+                        className={`text-center disabled:cursor-not-allowed font-medium capitalize ${day.date === booking.date && 'text-green-500 underline'}`}
+                    >
+                        <p>
+                            {day.isToday ? 'Today' : day.dayOfWeek}
+                            {!day.isToday && <br/>}
+                            {!day.isToday && day.date}
+                        </p>
+                    </button>
+                ))}
+            </div> }
+        </>
     )
 }
 

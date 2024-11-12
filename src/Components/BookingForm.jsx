@@ -5,6 +5,9 @@ import FormGroup from "./Forms/FormGroup";
 import { useParams } from "react-router-dom";
 import DaySelection from "./booking/DaySelection";
 import TimeSelection from "./booking/TimeSelection";
+import GameModeSelection from "./booking/GameModeSelection";
+import StripePayment from "./Payments/StripePayment";
+
 
 const BookingForm = () => {
 
@@ -14,16 +17,21 @@ const BookingForm = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+    const [bookingStep, setBookingStep] = useState('initial');
 
     const [booking, setBooking] = useState({
         venueId: false,
         isPaid: false,
         firstName: 'Oleksii',
         lastName: 'Tsioma',
-        phone: '+19713350554',
+        phone: '9713350554',
         date: false,
         timeBlocks: false,
-        email: 'oleksiitsioma@gmail.com'
+        gameMode: '',
+        email: 'oleksiitsioma@gmail.com',
+        guestCount: 1,
+        bay: 'driving-range-1',
+        price: 50
     })
 
     useEffect(() => {
@@ -33,7 +41,8 @@ const BookingForm = () => {
                 setVenue(venueData)
                 setBooking((prevState) => ({
                     ...prevState,
-                    venueId: venueData._id
+                    venueId: venueData._id,
+                    bookingPrice: venue.initialPeriodPrice
                 }))
             })
             .catch( err => console.error(err))
@@ -70,21 +79,15 @@ const BookingForm = () => {
     },[booking])
 
     const submitBooking = (e) => {
-        e.preventDefault();
-
-        setIsSubmitDisabled(true)
-
+        e && e.preventDefault();
+        booking.bay = `${booking.gameMode}-1`;
+        setBooking(booking);
+        setBookingStep('payment');
         console.log(booking);
-
         axios.post(serverConnection.api+'/booking/', booking)
             .then(response => console.log(response))
             .catch(err => console.error(err))
     }
-
-    const gameModeOptions = [
-        {value: 'driving-range', label: 'Driving Range', selected: false},
-        {value: 'course-play', label: 'Course Play', selected: false}
-    ]
 
     const setDate = (e) => {
         e.preventDefault();
@@ -94,33 +97,28 @@ const BookingForm = () => {
         }))
     }
 
+    const submitMembershipBooking = () => {
+
+        console.log('membership');
+
+        handleData('isMembership', true);
+
+        console.log(booking);
+
+        axios.post(serverConnection.api+'/booking/', booking)
+            .then(response => console.log(response))
+            .catch(err => console.error(err))
+    }
+
 
 
     return(
         <>
-            {venue && venue.title && <h1>{`Your booking at ${venue.title}`}</h1>}
-            <div className="container mx-auto grid grid-cols-2 gap-x-8 gap-y-4 mb-3">
+            <div className="grid grid-cols-2 gap-x-8">
                 <form
                     onSubmit={submitBooking}
-                >   
-                    <h2>Available times</h2>
-                    <DaySelection
-                        openDays={venue.openDays}
-                        daysCount={2}
-                        onData={ val => setBooking((prevState) => ({
-                            ...prevState,
-                            date: val
-                        }))}
-                    />
-                    <TimeSelection
-                        venue={venue}
-                        booking={booking}
-                        onData={ val => setBooking((prevState) => ({
-                            ...prevState,
-                            timeBlocks: val
-                        }))}
-                    />
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-3">
+                >
+                    <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-4">
                         <FormGroup
                             property="firstName"
                             title="First Name"
@@ -155,158 +153,63 @@ const BookingForm = () => {
                             onValueChange={handleData}
                             required={true}
                         />
-                    </div>
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-3">
-                    </div>
-
-                    <div>
-                        <input
-                            type="submit"
-                            className={`bg-sky-600 rounded py-2 px-4 text-white ${isSubmitDisabled && 'disabled'}`}
-                            disabled={isSubmitDisabled}
-                            value={ 'Proceed to Payment' }
+                        <FormGroup
+                            property='guestCount'
+                            title="Guest Count"
+                            hint="How many people will come"
+                            placeholder="1"
+                            value={booking.guestCount ? booking.guestCount : 1}
+                            onValueChange={handleData}
+                            required={true}
                         />
                     </div>
+                    <GameModeSelection
+                        venue={venue}
+                        booking={booking}
+                        onData={ val => setBooking((prevState) => ({
+                            ...prevState,
+                            gameMode: val,
+                        }))}
+                    />
+                    <DaySelection
+                        venue={venue}
+                        booking={booking}
+                        openDays={venue.openDays}
+                        daysCount={3}
+                        dependsOn="gameMode"
+                        onData={ val => setBooking((prevState) => ({
+                            ...prevState,
+                            date: val
+                        }))}
+                    />
+                    <TimeSelection
+                        property='timeBlocks'
+                        venue={venue}
+                        booking={booking}
+                        dependsOn="date"
+                        onData={ val => setBooking((prevState) => ({
+                            ...prevState,
+                            timeBlocks: val
+                        }))}
+                    />
+                    <div>
+                        { Boolean(booking.timeBlocks.length) && <h2 className="text-2xl font-medium mb-4">{`Price: ${booking.price}`}</h2> }
+                    </div>
+                    { Boolean(booking.timeBlocks.length) &&  <div className="flex gap-4">
+                        <input
+                            type="submit"
+                            className={`bg-sky-600 rounded py-2 px-4 text-white disabled:opacity-50`}
+                            value={ 'Proceed to Payment' }
+                        />
+                        <button
+                            className="underline font-medium hover:text-sky-500"
+                            type="button"
+                            onClick={e => submitMembershipBooking()}
+                        >I have membership</button>
+                    </div> }
                 </form>
+                { bookingStep === 'payment' && <StripePayment price={booking.price} />}
             </div>
-            {/* <div className="container">
-                {/* <div className="row">
-                    <div className="nav nav-pills">
-                        <li className="nav-item">
-                            <button
-                                className="nav-link"
-                                value={'course-play'}
-                                onClick={handleBookingTypeSwitch}
-                            >Course Play Bays</button>
-                        </li>
-                        <li className="nav-item">
-                            <button
-                                className="nav-link"
-                                value={'driving-range'}
-                                onClick={handleBookingTypeSwitch}
-                            >Driving Range Bays</button>
-                        </li>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col">                        
-                        <form
-                        className="gbrForm"
-                        onSubmit={handleSubmit}
-                        >
-                            <div className="row mb-3">
-                                <div className="col">
-                                    <div className="gbrForm__group">
-                                        <label htmlFor="booking-name" className="form-label">First Name</label>
-                                        <input
-                                            type="text"
-                                            className="gbrForm__input form-control"
-                                            id="booking-name"
-                                            value={firstName}
-                                            onChange={ e => setFirstName(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <div className="gbrForm__group">
-                                        <label htmlFor="booking-name" className="form-label">Last Name</label>
-                                        <input
-                                            type="text"
-                                            className="gbrForm__input form-control"
-                                            id="booking-name"
-                                            value={lastName}
-                                            onChange={ e => setLastName(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row mb-3">
-                                <div className="col">
-                                    <div className="gbrForm__group">
-                                        <label htmlFor="booking-phone" className="form-label">Phone</label>
-                                        <input
-                                            type="tel"
-                                            className="gbrForm__input form-control"
-                                            id="booking-phone"
-                                            value={customerPhone}
-                                            onChange={e => setCustomerPhone(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <div className="gbrForm__group">
-                                        <label htmlFor="booking-people" className="form-label">Number of People</label>
-                                        <input
-                                            type="number"
-                                            min="1"
-                                            className="gbrForm__input form-control"
-                                            id="booking-people"
-                                            value={guestsCount}
-                                            onChange={e => setGuestsCount(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                            </div>                            
-                            <div className="gbrForm__group">
-                                <label htmlFor="booking-date" className="form-label">Date</label>
-                                <input
-                                    type="date"
-                                    className="gbrForm__input form-control"
-                                    id="booking-date"
-                                    value={date}
-                                    onChange={e => setDate(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="gbrForm__group">
-                                <label htmlFor="booking-time" className="form-label">Time</label>
-                                <div>
-                                { timeBlocks.map( (block, index) => (
-                                    <button
-                                        className={'px-2 py-1 bg-gray-400 rounded mb-2 mr-2 timeSlot'}
-                                        disabled={ bookedSlots[block.id] == venue.bayCount }
-                                        key={block.id}
-                                        timeslot-value={block.id}
-                                        type="button"
-                                        onClick={ e => {
-                                            setTime(block.id);
-                                            selectBookingSlotsByTime(e)
-                                        }}
-                                    >{ `${block.hours}:${block.minutes}`}</button>
-                                ) )}
-                                </div>
-                            </div>
-                            <div className="gbrForm__group mb-3">
-                                <label htmlFor="booking-duration" className="form-label">Booking Duration, hours</label>
-                                <input
-                                    type="number"
-                                    min={ 1 }
-                                    className="gbrForm__input form-control"
-                                    id="booking-duration"
-                                    value={bookingDuration}
-                                    onChange={ e => {
-                                        selectBookingSlotsByDuration(e);
-                                    }}
-                                    required
-                                />
-                            </div>
-                            <h2>{`Price: ${bookingPrice}`}</h2>
-                            <div className="gbrForm__group">
-                                <input type="submit" className="gbrForm__input form-control gbrForm__input_submit" value="Continue" />
-                            </div>
-                        </form>
-                        <p>{ `Bay Count: ${venue.bayCount}`}</p>
-                        
-                    </div>
-                    <div className="col">
-                        { bookingStep === 'payment' && <StripePayment price={bookingPrice} bookingId={newBookingId} />}
-                    </div>
-                </div>
-            </div> */}
         </>
     )
 }
