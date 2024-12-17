@@ -7,7 +7,7 @@ const SECRET_KEY = "your_secret_key"; // Use a secure key in production
 
 const signIn = async (req, res) => {
     const { email, password, isKiosk } = req.body;
-    let user = await User.findOne({email: email});
+    let user = await User.findOne({email: email.toLowerCase()});
   
     if (!user) return res.status(404).json({ message: "User not found" });
     const validPassword = await bcrypt.compare(password, user.password);
@@ -15,7 +15,7 @@ const signIn = async (req, res) => {
 
     
     // Generate JWT Token
-    const token = jwt.sign({ id: user._id, email: user.email }, SECRET_KEY, { expiresIn: isKiosk ? "365000d" : "1h" });
+    const token = jwt.sign({ id: user._id, email: user.email.toLowerCase() }, SECRET_KEY, { expiresIn: isKiosk ? "365000d" : "1h" });
     
     res.json({ message: "Login successful" , token: token, user: user, kioskMode: Boolean(isKiosk) });
 }

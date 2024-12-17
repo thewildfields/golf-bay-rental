@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 
 const signUp = async (req, res) => {
     const { email, username, password } = req.body;
-    const userExists = await User.find({email: email});
+    const userExists = await User.find({email: email.toLowerCase()});
     if(userExists.length){
         console.log(userExists)
         res.send('User with this email already exists');
@@ -13,7 +13,7 @@ const signUp = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
-        email: email,
+        email: email.toLowerCase(),
         username: username,
         password: hashedPassword
     });
